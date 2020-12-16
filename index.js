@@ -3,10 +3,10 @@
  * donde la aplicacion se ejecutara
  */
 
-const express = require("express");
+const express = require('express');
 const app = express();
-const { config } = require("./config/index");
-const moviesApi = require("./routes/movies-routes");
+const { config } = require('./config/index');
+const moviesApi = require('./routes/movies-routes');
 
 //Middlware para gestionar errores
 
@@ -14,8 +14,8 @@ const {
   errorHandler,
   logErrors,
   wrapErrors,
-} = require("./utils/middlewares/errorHandlers");
-const notFoundHandler = require("./utils/middlewares/noFoundHandler");
+} = require('./utils/middlewares/errorHandlers');
+const notFoundHandler = require('./utils/middlewares/noFoundHandler');
 
 //Usamos el middleware de exprees que nos permite leer datos en formato Json, body-parser
 app.use(express.json());

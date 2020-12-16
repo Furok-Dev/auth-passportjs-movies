@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Rutas de prueba de la aplicacion
  */

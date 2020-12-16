@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Aqui vamos a ver que es un middleware y como funciona
  * tambien vamos a implementar una dependecia llamada boom
@@ -30,7 +31,7 @@ function wrapErrors(err, req, res, next) {
 }
 
 //En este manejador de error los errores seran de tipo boom
-function errorHandler(err, req, res, nex) {
+function errorHandler(err, req, res, next) {
   const {
     output: { statusCode, payload },
   } = err;
