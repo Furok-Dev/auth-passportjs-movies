@@ -10,7 +10,9 @@ const validationHandler = require('../utils/middlewares/validationHandler');
 // esquemas para generar la validacion
 const { movieIdSchema } = require('../utils/schemas/movies-schemas');
 const { userIdSchema } = require('../utils/schemas/user-schema');
-const { createUserSchema } = require('../utils/schemas/userMovies-schemas');
+const {
+  createUserMovieSchema,
+} = require('../utils/schemas/userMovies-schemas');
 
 // para las ruta de las peliculas del usuario
 const userMoviesApi = (app) => {
@@ -35,6 +37,30 @@ const userMoviesApi = (app) => {
         next(err);
       }
     }
+  );
+
+  router.post(
+    '/',
+    validationHandler(createUserMovieSchema),
+    async (req, res, next) => {
+      const { body: userMovie } = req;
+      try {
+        const createdUserMovieId = await userMovieService.addFavoriteUserMovies(
+          { userMovie }
+        );
+        res
+          .status(201)
+          .json({ data: createdUserMovieId, message: 'Added to favorite' });
+      } catch (err) {
+        next(err);
+      }
+    }
+  );
+
+  router.delete(
+    '/:userMovieId',
+    validationHandler(movieIdSchema),
+    async (req, res, next) => {}
   );
 };
 
