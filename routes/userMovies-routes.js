@@ -1,8 +1,8 @@
-// rutas para las peliculas dle usuario
+// rutas para las peliculas del usuario
 const express = require('express');
 
 // hacemos uso de los servicios
-const userMovieService = require('../services/userMovies-services');
+const userMoviesService = require('../services/userMovies-services');
 
 // middleware para validacion de los esquemas
 const validationHandler = require('../utils/middlewares/validationHandler');
@@ -28,7 +28,7 @@ const userMoviesApi = (app) => {
     async function (req, res, next) {
       const { userId } = req.query;
       try {
-        const userMovies = await userMovieService.getUserMovies({ userId });
+        const userMovies = await userMoviesService.getUserMovies({ userId });
         res.status(200).json({
           data: userMovies,
           message: 'User movies listed',
@@ -45,7 +45,7 @@ const userMoviesApi = (app) => {
     async (req, res, next) => {
       const { body: userMovie } = req;
       try {
-        const createdUserMovieId = await userMovieService.addFavoriteUserMovies(
+        const createdUserMovieId = await userMoviesService.addFavoriteUserMovies(
           { userMovie }
         );
         res
@@ -59,8 +59,23 @@ const userMoviesApi = (app) => {
 
   router.delete(
     '/:userMovieId',
-    validationHandler(movieIdSchema),
-    async (req, res, next) => {}
+    validationHandler({ movieIdSchema }, 'params'),
+    async (req, res, next) => {
+      const { userMovieId } = req;
+
+      try {
+        const deleteUserMovieid = await userMoviesService.deleteFavoriteUserMovies(
+          { userMovieId }
+        );
+
+        res.status(200).json({
+          data: deleteUserMovieid,
+          message: 'User movie deleted',
+        });
+      } catch (err) {
+        next(err);
+      }
+    }
   );
 };
 

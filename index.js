@@ -7,6 +7,7 @@ const express = require('express');
 const app = express();
 const { config } = require('./config/index');
 const moviesApi = require('./routes/movies-routes');
+const userMoviesApi = require('./routes/userMovies-routes');
 
 //Middlware para gestionar errores
 
@@ -20,8 +21,9 @@ const notFoundHandler = require('./utils/middlewares/noFoundHandler');
 //Usamos el middleware de exprees que nos permite leer datos en formato Json, body-parser
 app.use(express.json());
 
-//la aplicacionde expren que gestiona las rutas
+//la aplicacionde express que gestiona las rutas
 moviesApi(app);
+userMoviesApi(app);
 
 //Middleware que gestiona los 404
 app.use(notFoundHandler);
