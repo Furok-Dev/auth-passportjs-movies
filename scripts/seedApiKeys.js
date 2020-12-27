@@ -65,4 +65,5 @@ async function seedApiKeys() {
   }
 }
 
+// Se crearan las api keys randomicamente para ser usadas con passportjs
 seedApiKeys();
