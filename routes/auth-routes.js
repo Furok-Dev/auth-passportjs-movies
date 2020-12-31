@@ -7,9 +7,15 @@ const express = require('express');
 const passport = require('passport');
 const boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
+//para el sign-up
+const UserServices = require('../services/user-services');
+const validationHandler = require('../utils/middlewares/validationHandler');
 //implementamos el servicio de las KEYS
 const ApiKeyService = require('../services/apiKeys-services');
 const { config } = require('../config/index');
+
+//schema for create a new user
+const { createUserSchema } = require('../utils/schemas/user-schema');
 
 // Basic Strategy
 require('../utils/auth/strategies/basic');
@@ -19,6 +25,7 @@ function authApi(app) {
   app.use('/api/auth', router);
 
   const apiKeysService = new ApiKeyService();
+  const userService = new UserServices();
 
   router.post('/sign-in', async function (req, res, next) {
     const { apiKeyToken } = req.body;
@@ -67,6 +74,24 @@ function authApi(app) {
         next(error);
       }
     })(req, res, next);
+  });
+
+  router.post('/sign-up', validationHandler(createUserSchema), async function (
+    req,
+    res,
+    next
+  ) {
+    const { body: user } = req;
+    try {
+      const createdUserId = await userService.createUser({ user });
+
+      res.status(201).json({
+        data: createdUserId,
+        message: `User created successfully with id ${this.createdUserId}`,
+      });
+    } catch (error) {
+      next(error);
+    }
   });
 }
 
