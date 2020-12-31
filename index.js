@@ -8,7 +8,7 @@ const app = express();
 const { config } = require('./config/index');
 const moviesApi = require('./routes/movies-routes');
 const userMoviesApi = require('./routes/userMovies-routes');
-
+const authApi = require('./routes/auth-routes');
 //Middlware para gestionar errores
 
 const {
@@ -24,7 +24,7 @@ app.use(express.json());
 //la aplicacionde express que gestiona las rutas
 moviesApi(app);
 userMoviesApi(app);
-
+authApi(app);
 //Middleware que gestiona los 404
 app.use(notFoundHandler);
 

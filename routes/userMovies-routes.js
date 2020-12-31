@@ -2,7 +2,7 @@
 const express = require('express');
 
 // hacemos uso de los servicios
-const userMoviesService = require('../services/userMovies-services');
+const UserMovieService = require('../services/userMovies-services');
 
 // middleware para validacion de los esquemas
 const validationHandler = require('../utils/middlewares/validationHandler');
@@ -20,7 +20,7 @@ const userMoviesApi = (app) => {
   app.use('/api/user-movies', router);
 
   // inicializamos nuestro servicio de las peliculas
-  const UserMovieService = new UserMovieService();
+  const userMovieService = new UserMovieService();
 
   router.get(
     '/',
@@ -28,7 +28,7 @@ const userMoviesApi = (app) => {
     async function (req, res, next) {
       const { userId } = req.query;
       try {
-        const userMovies = await userMoviesService.getUserMovies({ userId });
+        const userMovies = await userMovieService.getUserMovies({ userId });
         res.status(200).json({
           data: userMovies,
           message: 'User movies listed',
@@ -45,7 +45,7 @@ const userMoviesApi = (app) => {
     async (req, res, next) => {
       const { body: userMovie } = req;
       try {
-        const createdUserMovieId = await userMoviesService.addFavoriteUserMovies(
+        const createdUserMovieId = await userMovieService.addFavoriteUserMovies(
           { userMovie }
         );
         res
@@ -64,7 +64,7 @@ const userMoviesApi = (app) => {
       const { userMovieId } = req;
 
       try {
-        const deleteUserMovieid = await userMoviesService.deleteFavoriteUserMovies(
+        const deleteUserMovieid = await userMovieService.deleteFavoriteUserMovies(
           { userMovieId }
         );
 

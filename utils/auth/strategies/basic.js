@@ -10,13 +10,12 @@ const boom = require('@hapi/boom');
 const bcrypt = require('bcrypt');
 
 //servicio del usuario para buscar al usuario
-const UserService = require('../../../services/user-services');
+const UsersService = require('../../../services/user-services');
 
 //implementamos la estrategia
 passport.use(
   new BasicStrategy(async function (email, password, cb) {
-    const userService = new UserService();
-
+    const userService = new UsersService();
     try {
       const user = await userService.getUser({ email });
 
@@ -32,6 +31,7 @@ passport.use(
 
       //borramos todo para un nuevo usuario
       delete user.password;
+
       return cb(null, true);
     } catch (err) {
       return cb(err);
