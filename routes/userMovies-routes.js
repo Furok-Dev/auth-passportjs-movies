@@ -13,11 +13,13 @@ const { userIdSchema } = require('../utils/schemas/user-schema');
 const {
   createUserMovieSchema,
 } = require('../utils/schemas/userMovies-schemas');
+const protectRoutes = require('../utils/middlewares/protectRoutes');
 
 // para las ruta de las peliculas del usuario
 const userMoviesApi = (app) => {
   const router = express.Router();
   app.use('/api/user-movies', router);
+  router.use(protectRoutes);
 
   // inicializamos nuestro servicio de las peliculas
   const userMovieService = new UserMovieService();
