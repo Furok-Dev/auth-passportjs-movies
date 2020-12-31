@@ -6,16 +6,17 @@
  * que nos ayudara a dar el formato a los datos
  * que solicitamos
  */
-const boom = require("@hapi/boom");
+const boom = require('@hapi/boom');
 
-const joi = require("@hapi/joi");
+const joi = require('@hapi/joi');
 
 function validate(data, schema) {
-  const { error } = joi.object(schema).validate(data);
+  const joiSchema = joi.object(schema);
+  const { error } = joiSchema.validate(data);
   return error;
 }
 
-function validationHandler(schema, check = "body") {
+function validationHandler(schema, check = 'body') {
   return function (req, res, next) {
     const error = validate(req[check], schema);
     error ? next(boom.badRequest(error)) : next();
